@@ -34,4 +34,4 @@ jobs:
         run: echo "wibble $TARGET_ENV $CABBAGE_TEST_SECRET"
         env:
           TARGET_ENV: CI
-          CABBAGE_TEST_SECRET: wobble
+          CABBAGE_TEST_SECRET: ${{ secrets.CABBAGE_TEST_SECRET }}
