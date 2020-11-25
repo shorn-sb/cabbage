@@ -27,11 +27,9 @@ jobs:
       - name: Show dir
         run: pwd
 
-      - name: Build with Gradle
-        run: ./gradlew tasks
-
-      - name: Show env variables
-        run: echo "wibble $TARGET_ENV $CABBAGE_TEST_SECRET"
+      - name: flywayInfo
+        run: ./gradlew flywayInfo
         env:
-          TARGET_ENV: CI
-          CABBAGE_TEST_SECRET: ${{ secrets.CABBAGE_TEST_SECRET }}
+          CABBAGE_TARGET_ENV: CI
+          CABBAGE_DB_PASSWORD: ${{ secrets.CABBAGE_CI_DB_PASSWORD }}
+
