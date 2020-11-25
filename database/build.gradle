@@ -11,19 +11,25 @@ plugins {
 
 ext {
   envName = System.getenv("CABBAGE_TARGET_ENV")
-  cabbagePrdId = "todo"
-  cabbageTstId = "todo"
-  cabbageCiId = "zlzbxjbgcvzctujriyce"
-  cabbageDbId = ""
-
   cabbageDbPassword = System.getenv("CABBAGE_DB_PASSWORD")
+
+  cabbageDbConnection = ""
   if( envName == "CI" ){
-    cabbageDbId = cabbageCiId
+    cabbageDbConnection = "db.zlzbxjbgcvzctujriyce.supabase.co:5432/postgres"
+  }
+  else if ( envName == "TST" ){
+    cabbageDbConnection = "db.voopfoyfpcvtqlqybyjf.supabase.co:5432/postgres"
+  }
+  else if ( envName == "PRD" ){
+    cabbageDbConnection = "db.yohbyxbidghmlxljiajn.supabase.co:5432/postgres"
+  }
+  else if ( envName == "DEV" ){
+    cabbageDbConnection = "192.168.99.100:6200/postgres"
   }
 }
 
 flyway {
-  url = "jdbc:postgresql://db.${cabbageDbId}.supabase.co:5432/postgres"
+  url = "jdbc:postgresql://${cabbageDbConnection}"
   user = 'postgres'
   password = cabbageDbPassword
 }
@@ -34,7 +40,7 @@ task checkFlywayEnv(){
   doFirst {
     assert envName : "CABBAGE_TARGET_ENV env var not set"
     assert cabbageDbPassword : "CABBAGE_DB_PASSWORD env var not set"
-    assert cabbageDbId : "DB id not set - unknown target enviornment"
+    assert cabbageDbConnection : "DB id not set - unknown target enviornment"
   }
   doLast {
     logger.warn "cabbage target environment is: $envName"
@@ -42,7 +48,7 @@ task checkFlywayEnv(){
 }
 
 flywayClean.doFirst{
-  assert cabbageDbId != cabbagePrdId : "do not run flywayClean in PRD!"
+  assert envName != "PRD" : "do not run flywayClean in PRD!"
 }
 
 // don't let any of these run if the env isn't configured properly
