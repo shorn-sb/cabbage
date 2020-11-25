@@ -27,8 +27,8 @@ jobs:
       - name: Show dir
         run: pwd
 
-      - name: flywayInfo
-        run: ./gradlew flywayClean flywayInfo
+      - name: flyway clean-migrate CI
+        run: ./gradlew flywayClean flywayMigrate
         env:
           CABBAGE_TARGET_ENV: CI
           CABBAGE_DB_PASSWORD: ${{ secrets.CABBAGE_CI_DB_PASSWORD }}
