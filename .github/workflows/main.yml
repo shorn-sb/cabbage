@@ -29,3 +29,6 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew tasks
+
+      - name: Show env variables
+        run: echo "wibble $TARGET_ENV $CABBAGE_TEST_SECRET"
