@@ -28,7 +28,7 @@ jobs:
         run: pwd
 
       - name: flywayInfo
-        run: ./gradlew flywayInfo
+        run: ./gradlew flywayClean flywayInfo
         env:
           CABBAGE_TARGET_ENV: CI
           CABBAGE_DB_PASSWORD: ${{ secrets.CABBAGE_CI_DB_PASSWORD }}
