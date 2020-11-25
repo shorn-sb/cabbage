@@ -31,10 +31,17 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
 
+      - name: Cache Gradle wrapper
+        uses: actions/cache@v2
+        with:
+          path: ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+
       - name: Show dir
         run: pwd
 
-      - name: Show dir structure
+      - name: Show home structure
         run: ls -la ~
 
       - name: flyway clean-migrate CI
@@ -43,6 +50,9 @@ jobs:
           CABBAGE_TARGET_ENV: CI
           CABBAGE_DB_PASSWORD: ${{ secrets.CABBAGE_CI_DB_PASSWORD }}
 
-      - name: Show dir structure
+      - name: Show home structure
         run: ls -la ~
+
+      - name: Show gradle structure
+        run: ls -la ~/.gradle
 
